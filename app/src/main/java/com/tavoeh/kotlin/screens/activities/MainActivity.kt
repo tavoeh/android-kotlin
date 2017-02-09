@@ -9,6 +9,7 @@ import com.tavoeh.kotlin.domain.commands.RequestForecastCommand
 import com.tavoeh.kotlin.screens.adapters.ForecastListAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 
@@ -18,17 +19,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val forecastList : RecyclerView =  find(R.id.forecast_list)
+        val forecastList: RecyclerView = find(R.id.forecast_list)
         forecastList.layoutManager = LinearLayoutManager(this)
 
         doAsync {
-            val result = RequestForecastCommand("3008").execute()
+            val result = RequestForecastCommand("94043").execute()
             uiThread {
-                forecastList.adapter = ForecastListAdapter(result);
+                val adapter = ForecastListAdapter(result) { toast(it.date) }
+                forecastList.adapter = adapter
             }
         }
     }
-
 
 
 }
